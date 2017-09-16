@@ -12,6 +12,7 @@
     "request": "~2.34.0"
   },
   "devDependencies": {
+    "spotify-web-api-js": "^0.22.1",
     "typescript": "^2.5.2"
   }
 }

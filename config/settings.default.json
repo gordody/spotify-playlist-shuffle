@@ -1,0 +1,6 @@
+{
+    "credentials": {
+        "clientId": "<put Spotify ClientId here>",
+        "clientSecret": "<put Spotify ClientSecret here>"
+    }
+}
