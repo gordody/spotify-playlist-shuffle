@@ -28,6 +28,9 @@
         <div id="oauth">
         </div>
         <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+        <button class="btn btn-default" id="get-user-playlists">Get Playlists</button>
+        <div id="user-playlists">
+        </div>
       </div>
     </div>
 
@@ -59,8 +62,21 @@
       </dl>
     </script>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script id="user-playlists-template" type="text/x-handlebars-template">
+      <h1>Found {{total}} playlists</h1>
+      <div><a href="{{href}}">Source</a></div>
+      {{#each items}}
+      <div class="playlist-name">{{name}}</div>
+      <div class="playlist-tracks">Tracks: {{tracks.total}}
+        <a href="{{tracks.href}}">Link</a>
+      </div>
+      <div class="playlist-type">Type: {{type}}</div>
+      <a href="{{uri}}">Link</a>
+      {{/each}}
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
       (function() {
 
@@ -85,6 +101,12 @@
         var oauthSource = document.getElementById('oauth-template').innerHTML,
             oauthTemplate = Handlebars.compile(oauthSource),
             oauthPlaceholder = document.getElementById('oauth');
+
+         var userPlaylistsSource = document.getElementById('user-playlists-template').innerHTML,
+            userPlaylistsTemplate = Handlebars.compile(userPlaylistsSource),
+            userPlaylistsPlaceholder = document.getElementById('user-playlists');
+
+        var userPlaylists;
 
         var params = getHashParams();
 
@@ -120,7 +142,7 @@
               $('#loggedin').hide();
           }
 
-          document.getElementById('obtain-new-token').addEventListener('click', function() {
+          $('#obtain-new-token').on('click', function() {
             $.ajax({
               url: '/refresh_token',
               data: {
@@ -134,6 +156,20 @@
               });
             });
           }, false);
+
+          $('#get-user-playlists').on('click', function() {
+            $.ajax({
+              url: 'https://api.spotify.com/v1/me/playlists',
+              headers: {
+                'Authorization': 'Bearer ' + access_token
+              },
+              success: function(response) {
+                userPlaylistsPlaceholder.innerHTML = userPlaylistsTemplate(response);
+              }
+            }).done(function(data) {
+              userPlaylists = data;
+            });
+          });
         }
       })();
     </script>
