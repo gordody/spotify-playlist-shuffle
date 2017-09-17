@@ -67,11 +67,28 @@
       <div><a href="{{href}}">Source</a></div>
       {{#each items}}
       <div class="playlist-name">{{name}}</div>
-      <div class="playlist-tracks">Tracks: {{tracks.total}}
-        <a href="{{tracks.href}}">Link</a>
-      </div>
+      <div class="playlist-tracks">Tracks: {{tracks.total}}</div>
       <div class="playlist-type">Type: {{type}}</div>
-      <a href="{{uri}}">Link</a>
+      <button id="playlist-{{id}}" data-playlist-is="{{id}}">Load Tracks</button>
+      {{/each}}
+    </script>
+
+    <script id="user-current-playlist-template" type="text/x-handlebars-template">
+      <h2>Found {{total}} tracks</h2>
+      <div>Name: {{name}}</div>
+      <div>Description: {{description}}</div>
+      {{#if images[0]}}
+      <img src="{{images[0].url}}"/>
+      {{/if}}
+      <h3>Tracks</h3>>
+      {{#each tracks.items}}
+        {{#each artists}}
+        <div class="artist-name">Artist: {{name}}</div>
+        {{/each}}
+      <div class="album-name">Album: {{track.album.name}}</div>
+      <div>
+        Preview: <audio controls><source src="{{preview_url}}" type="audio/mpeg"></audio>          
+      </div>
       {{/each}}
     </script>
 
@@ -106,7 +123,13 @@
             userPlaylistsTemplate = Handlebars.compile(userPlaylistsSource),
             userPlaylistsPlaceholder = document.getElementById('user-playlists');
 
+        var userCurrentPlaylistSource = document.getElementById('user-current-playlist-template').innerHTML,
+            userCurrentPlaylistTemplate = Handlebars.compile(userCurrentPlaylistSource),
+            userCurrentPlaylistPlaceholder = document.getElementById('user-current-playlist');
+
+        var userProfile;
         var userPlaylists;
+        var userCurrentPlaylist;
 
         var params = getHashParams();
 
@@ -135,6 +158,8 @@
                   $('#login').hide();
                   $('#loggedin').show();
                 }
+            }).done(function(data) {
+              userProfile = data;
             });
           } else {
               // render initial screen
@@ -169,6 +194,28 @@
             }).done(function(data) {
               userPlaylists = data;
             });
+          });
+
+          $('#user-playlists').on('click', function(e) {
+            var target = e.target;
+            if (target.hasAttribute('playlist')) {
+              var user_id = userProfile.id;
+              var playlist_id = $(target.id).data('playlist-id');
+              $.ajax({
+                url: 'https://api.spotify.com/v1' + 
+                  '/users/' + user_id + 
+                  '/playlists/' + playlist_id,
+                headers: {
+                  'Authorization': 'Bearer ' + access_token
+                },
+                success: function(response) {
+                  userCurrentPlaylistPlaceholder.innerHTML = userCurrentPlaylistTemplate(response);
+                }
+              }).done(function(data) {
+                userCurrentPlaylist = data;
+              });
+            }
+            e.stopPropagation();
           });
         }
       })();
