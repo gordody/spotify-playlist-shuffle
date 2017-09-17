@@ -28,8 +28,14 @@
         <div id="oauth">
         </div>
         <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
-        <button class="btn btn-default" id="get-user-playlists">Get Playlists</button>
-        <div id="user-playlists">
+        <p>
+          <button class="btn btn-default" id="get-user-playlists">Get Playlists</button>
+          <div id="user-playlists">
+          </div>  
+        </p>
+        <p>
+          <div id="user-current-playlist">            
+        </p>
         </div>
       </div>
     </div>
@@ -69,7 +75,7 @@
       <div class="playlist-name">{{name}}</div>
       <div class="playlist-tracks">Tracks: {{tracks.total}}</div>
       <div class="playlist-type">Type: {{type}}</div>
-      <button id="playlist-{{id}}" data-playlist-is="{{id}}">Load Tracks</button>
+      <button id="playlist-{{id}}" data-playlist-id="{{id}}">Load Tracks</button>
       {{/each}}
     </script>
 
@@ -77,17 +83,23 @@
       <h2>Found {{total}} tracks</h2>
       <div>Name: {{name}}</div>
       <div>Description: {{description}}</div>
-      {{#if images[0]}}
-      <img src="{{images[0].url}}"/>
-      {{/if}}
-      <h3>Tracks</h3>>
-      {{#each tracks.items}}
-        {{#each artists}}
-        <div class="artist-name">Artist: {{name}}</div>
-        {{/each}}
-      <div class="album-name">Album: {{track.album.name}}</div>
       <div>
-        Preview: <audio controls><source src="{{preview_url}}" type="audio/mpeg"></audio>          
+        {{#if images.[0]}}
+          <img height=100 width=100 src="{{images.0.url}}"/>
+        {{/if}}
+      </div>
+      <h3>Tracks</h3>
+      {{#each tracks.items}}
+      <div class="track">
+        <div class="track-number" data-track-number={{track.track_number}}>#{{track.track_number}}</div>
+        {{#each track.artists}}
+          <div class="artist-name">Artist: {{name}}</div>
+        {{/each}}
+        <div class="album-name">Album: {{track.album.name}}</div>
+        <div class="track-name">Name: {{track.name}}</div>
+        <div>
+          Preview: <audio controls><source src="{{track.preview_url}}" type="audio/mpeg"></audio>          
+        </div>
       </div>
       {{/each}}
     </script>
@@ -193,30 +205,34 @@
               }
             }).done(function(data) {
               userPlaylists = data;
+              setupPlaylistLoader();
             });
           });
 
-          $('#user-playlists').on('click', function(e) {
-            var target = e.target;
-            if (target.hasAttribute('playlist')) {
-              var user_id = userProfile.id;
-              var playlist_id = $(target.id).data('playlist-id');
-              $.ajax({
-                url: 'https://api.spotify.com/v1' + 
-                  '/users/' + user_id + 
-                  '/playlists/' + playlist_id,
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                  userCurrentPlaylistPlaceholder.innerHTML = userCurrentPlaylistTemplate(response);
-                }
-              }).done(function(data) {
-                userCurrentPlaylist = data;
-              });
-            }
-            e.stopPropagation();
-          });
+          function setupPlaylistLoader() {
+            $('#user-playlists').on('click', function(e) {
+              var target = e.target;
+              if (target.hasAttribute('data-playlist-id')) {
+                var user_id = userProfile.id;
+                var playlist_id = $('#' + target.id).data('playlist-id');
+                $.ajax({
+                  url: 'https://api.spotify.com/v1' + 
+                    '/users/' + user_id + 
+                    '/playlists/' + playlist_id,
+                  headers: {
+                    'Authorization': 'Bearer ' + access_token
+                  },
+                  success: function(response) {
+                    userCurrentPlaylistPlaceholder.innerHTML = userCurrentPlaylistTemplate(response);
+                  }
+                }).done(function(data) {
+                  userCurrentPlaylist = data;
+                });
+              }
+              e.stopPropagation();
+            });
+          }
+
         }
       })();
     </script>
