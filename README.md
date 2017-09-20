@@ -1,4 +1,6 @@
-Spotify app to rearragne playlists
+Spotify app to rearrange tracks in playlists
+https://community.spotify.com/t5/Closed-Ideas/Rearrange-Playlists-in-Mobile-App/idi-p/588188
+https://community.spotify.com/t5/Web-Player/Is-there-a-way-to-re-order-playlists/td-p/664360
 
 # Installation
 npm i
