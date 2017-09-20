@@ -2,9 +2,9 @@
 <html>
   <head>
     <title>Example of the Authorization Code flow with Spotify</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <style type="text/css">
-      #login, #loggedin {
+      #login, #loggedin, #user-current-playlist {
         display: none;
       }
       .text-overflow {
@@ -34,7 +34,9 @@
           </div>  
         </p>
         <p>
-          <div id="user-current-playlist">            
+          <div id="user-current-playlist"></div>
+          <button class="btn btn-default" id="upload-changed-playlist">Upload Changed Playlist</button>
+          <div id="upload-status"></div>
         </p>
         </div>
       </div>
@@ -89,23 +91,32 @@
         {{/if}}
       </div>
       <h3>Tracks</h3>
-      {{#each tracks.items}}
-      <div class="track">
-        <div class="track-number" data-track-number={{track.track_number}}>#{{track.track_number}}</div>
-        {{#each track.artists}}
-          <div class="artist-name">Artist: {{name}}</div>
-        {{/each}}
-        <div class="album-name">Album: {{track.album.name}}</div>
-        <div class="track-name">Name: {{track.name}}</div>
-        <div>
-          Preview: <audio controls><source src="{{track.preview_url}}" type="audio/mpeg"></audio>          
+      <div id="track-list" class="track-list-group">
+        {{#each tracks.items}}
+        <div class="track-item" data-id={{track.uri}}>
+          <span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+          <div class="track-number" data-track-number={{track.track_number}}>#{{track.track_number}}</div>
+          {{#each track.artists}}
+            <div class="artist-name">Artist: {{name}}</div>
+          {{/each}}
+          {{#each track.album.images}}
+            {{#if @last}}
+          <img class="album-image" src={{url}}>
+            {{/if}}
+          {{/each}}
+          <div class="album-name">Album: {{track.album.name}}</div>
+          <div class="track-name">Name: {{track.name}}</div>
+          <div>
+            Preview: <audio controls><source src="{{track.preview_url}}" type="audio/mpeg"></audio>          
+          </div>
         </div>
-      </div>
-      {{/each}}
+        {{/each}}
+      </div>  
     </script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="libs/sortable/1.6.1/sortable.min.js"></script>
     <script>
       (function() {
 
@@ -142,6 +153,7 @@
         var userProfile;
         var userPlaylists;
         var userCurrentPlaylist;
+        var sortablePlaylist;
 
         var params = getHashParams();
 
@@ -163,15 +175,12 @@
                 url: 'https://api.spotify.com/v1/me',
                 headers: {
                   'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                  userProfilePlaceholder.innerHTML = userProfileTemplate(response);
-
-                  $('#login').hide();
-                  $('#loggedin').show();
                 }
             }).done(function(data) {
+              userProfilePlaceholder.innerHTML = userProfileTemplate(data);
               userProfile = data;
+              $('#login').hide();
+              $('#loggedin').show();
             });
           } else {
               // render initial screen
@@ -199,11 +208,9 @@
               url: 'https://api.spotify.com/v1/me/playlists',
               headers: {
                 'Authorization': 'Bearer ' + access_token
-              },
-              success: function(response) {
-                userPlaylistsPlaceholder.innerHTML = userPlaylistsTemplate(response);
               }
             }).done(function(data) {
+              userPlaylistsPlaceholder.innerHTML = userPlaylistsTemplate(data);
               userPlaylists = data;
               setupPlaylistLoader();
             });
@@ -221,15 +228,46 @@
                     '/playlists/' + playlist_id,
                   headers: {
                     'Authorization': 'Bearer ' + access_token
-                  },
-                  success: function(response) {
-                    userCurrentPlaylistPlaceholder.innerHTML = userCurrentPlaylistTemplate(response);
                   }
                 }).done(function(data) {
+                  userCurrentPlaylistPlaceholder.innerHTML = userCurrentPlaylistTemplate(data);
                   userCurrentPlaylist = data;
+                  var trackListElem = document.getElementById('track-list');
+                  sortablePlaylist = Sortable.create(trackListElem, {
+                    handle: '.glyphicon-move',
+                    animation: 150
+                  });
+                  setupUploadPlaylistHandler();
+                  $('#user-current-playlist').show();
                 });
               }
               e.stopPropagation();
+            });
+          }
+
+          function setupUploadPlaylistHandler() {
+            $('#upload-changed-playlist').on('click', function(e) {
+              var user_id = userProfile.id;
+              var playlist_id = userCurrentPlaylist.id;
+              var newTrackIdOrder = sortablePlaylist.toArray();
+              var spotifyTrackData = { uris: newTrackIdOrder };
+              var uploadStatus;
+              $.ajax({
+                  url: 'https://api.spotify.com/v1' + 
+                    '/users/' + user_id + 
+                    '/playlists/' + playlist_id +
+                    '/tracks',
+                  headers: {
+                    'Authorization': 'Bearer ' + access_token
+                  },
+                  method: 'PUT',
+                  contentType: 'application/json',
+                  processData: false,
+                  data: JSON.stringify(spotifyTrackData)
+                }).done(function(data, status) {
+                  console.log('Track update status: ', status);
+                  $('#upload-status').text('Upload finished with status ' + status);
+                });
             });
           }
 
