@@ -1,0 +1,29 @@
+#login, #loggedin, #user-current-playlist {
+  display: none;
+}
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 500px;
+}
+
+#user-profile {
+  font-size: 10px;
+}
+#user-info-container, #playlist-container, #user-current-playlist-container {
+
+}
+
+.chosen-track-item {
+  color: #fff;
+  background-color: #c00;
+}
+.ghost-track-item {
+  opacity: .5;
+  background: #C8EBFB;
+}
+.track-item {
+  transition: all .5s;
+  cursor: move;
+}

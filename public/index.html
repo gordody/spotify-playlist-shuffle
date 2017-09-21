@@ -1,8 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Playlist sorting with Spotify</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/default.css">
     <style type="text/css">
       #login, #loggedin, #user-current-playlist {
         display: none;
@@ -13,6 +14,27 @@
         white-space: nowrap;
         width: 500px;
       }
+
+      #user-profile {
+        font-size: 10px;
+      }
+      #user-info-container, #playlist-container, #user-current-playlist-container {
+
+      }
+
+      .chosen-track-item {
+        color: #fff;
+        background-color: #c00;
+      }
+      .ghost-track-item {
+        opacity: .5;
+        background: #C8EBFB;
+      }
+      .track-item {
+        transition: all .5s;
+        cursor: move;
+      }
+
     </style>
   </head>
 
@@ -23,21 +45,20 @@
         <a href="/login" class="btn btn-primary">Log in with Spotify</a>
       </div>
       <div id="loggedin">
-        <div id="user-profile">
+        <div id="user-info-container">
+          <div id="user-profile">
+          </div>
+          <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
         </div>
-        <div id="oauth">
-        </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
-        <p>
+        <div id="playlist-container">
           <button class="btn btn-default" id="get-user-playlists">Get Playlists</button>
           <div id="user-playlists">
-          </div>  
-        </p>
-        <p>
+          </div>
+        </div>
+        <div id="user-current-playlist-container">
           <div id="user-current-playlist"></div>
           <button class="btn btn-default" id="upload-changed-playlist">Upload Changed Playlist</button>
           <div id="upload-status"></div>
-        </p>
         </div>
       </div>
     </div>
@@ -60,14 +81,6 @@
           </dl>
         </div>
       </div>
-    </script>
-
-    <script id="oauth-template" type="text/x-handlebars-template">
-      <h2>oAuth info</h2>
-      <dl class="dl-horizontal">
-        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}></dd>
-      </dl>
     </script>
 
     <script id="user-playlists-template" type="text/x-handlebars-template">
@@ -94,7 +107,7 @@
       <div id="track-list" class="track-list-group">
         {{#each tracks.items}}
         <div class="track-item" data-id={{track.uri}}>
-          <span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+          <span class="glyphicon glyphicon-move" aria-hidden="true">::</span>
           <div class="track-number" data-track-number={{track.track_number}}>#{{track.track_number}}</div>
           {{#each track.artists}}
             <div class="artist-name">Artist: {{name}}</div>
@@ -116,7 +129,8 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="libs/sortable/1.6.1/sortable.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.6.1/Sortable.min.js"></script>    
+    <script src="libs/spotify-web-api/0.22.1/spotify-web-api.js"></script>
     <script>
       (function() {
 
@@ -138,10 +152,6 @@
             userProfileTemplate = Handlebars.compile(userProfileSource),
             userProfilePlaceholder = document.getElementById('user-profile');
 
-        var oauthSource = document.getElementById('oauth-template').innerHTML,
-            oauthTemplate = Handlebars.compile(oauthSource),
-            oauthPlaceholder = document.getElementById('oauth');
-
          var userPlaylistsSource = document.getElementById('user-playlists-template').innerHTML,
             userPlaylistsTemplate = Handlebars.compile(userPlaylistsSource),
             userPlaylistsPlaceholder = document.getElementById('user-playlists');
@@ -161,22 +171,20 @@
             refresh_token = params.refresh_token,
             error = params.error;
 
+        var spotifyApi = new SpotifyWebApi();
+        spotifyApi.setAccessToken(access_token);
+
         if (error) {
           alert('There was an error during the authentication');
         } else {
           if (access_token) {
             // render oauth info
-            oauthPlaceholder.innerHTML = oauthTemplate({
+            console.log('Tokens found in url', {
               access_token: access_token,
               refresh_token: refresh_token
             });
 
-            $.ajax({
-                url: 'https://api.spotify.com/v1/me',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                }
-            }).done(function(data) {
+            spotifyApi.getMe().then(data => {
               userProfilePlaceholder.innerHTML = userProfileTemplate(data);
               userProfile = data;
               $('#login').hide();
@@ -196,7 +204,8 @@
               }
             }).done(function(data) {
               access_token = data.access_token;
-              oauthPlaceholder.innerHTML = oauthTemplate({
+              spotifyApi.setAccessToken(access_token);
+              console.log('New tokens obtained', {
                 access_token: access_token,
                 refresh_token: refresh_token
               });
@@ -204,15 +213,10 @@
           }, false);
 
           $('#get-user-playlists').on('click', function() {
-            $.ajax({
-              url: 'https://api.spotify.com/v1/me/playlists',
-              headers: {
-                'Authorization': 'Bearer ' + access_token
-              }
-            }).done(function(data) {
+            spotifyApi.getUserPlaylists().then(data => {
               userPlaylistsPlaceholder.innerHTML = userPlaylistsTemplate(data);
               userPlaylists = data;
-              setupPlaylistLoader();
+              setupPlaylistLoader();              
             });
           });
 
@@ -222,20 +226,17 @@
               if (target.hasAttribute('data-playlist-id')) {
                 var user_id = userProfile.id;
                 var playlist_id = $('#' + target.id).data('playlist-id');
-                $.ajax({
-                  url: 'https://api.spotify.com/v1' + 
-                    '/users/' + user_id + 
-                    '/playlists/' + playlist_id,
-                  headers: {
-                    'Authorization': 'Bearer ' + access_token
-                  }
-                }).done(function(data) {
+
+                spotifyApi.getPlaylist(user_id, playlist_id).then(data => {
                   userCurrentPlaylistPlaceholder.innerHTML = userCurrentPlaylistTemplate(data);
                   userCurrentPlaylist = data;
                   var trackListElem = document.getElementById('track-list');
                   sortablePlaylist = Sortable.create(trackListElem, {
                     handle: '.glyphicon-move',
-                    animation: 150
+                    animation: 150,
+                    delay: 100,
+                    chosenClass: 'chosen-track-item',
+                    ghostClass: 'ghost-track-item'
                   });
                   setupUploadPlaylistHandler();
                   $('#user-current-playlist').show();
@@ -250,24 +251,14 @@
               var user_id = userProfile.id;
               var playlist_id = userCurrentPlaylist.id;
               var newTrackIdOrder = sortablePlaylist.toArray();
-              var spotifyTrackData = { uris: newTrackIdOrder };
-              var uploadStatus;
-              $.ajax({
-                  url: 'https://api.spotify.com/v1' + 
-                    '/users/' + user_id + 
-                    '/playlists/' + playlist_id +
-                    '/tracks',
-                  headers: {
-                    'Authorization': 'Bearer ' + access_token
-                  },
-                  method: 'PUT',
-                  contentType: 'application/json',
-                  processData: false,
-                  data: JSON.stringify(spotifyTrackData)
-                }).done(function(data, status) {
-                  console.log('Track update status: ', status);
-                  $('#upload-status').text('Upload finished with status ' + status);
-                });
+
+              spotifyApi.replaceTracksInPlaylist(user_id, playlist_id, newTrackIdOrder).then(data => {
+                console.log('Tracks updated');
+                $('#upload-status').text('Upload finished');
+              }).catch(err => {
+                console.log('Tracks update failed', err);
+                $('#upload-status').text('Upload failed: ' + err);                
+              });
             });
           }
 
