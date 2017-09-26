@@ -4,38 +4,6 @@
     <title>Playlist sorting with Spotify</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/default.css">
-    <style type="text/css">
-      #login, #loggedin, #user-current-playlist {
-        display: none;
-      }
-      .text-overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 500px;
-      }
-
-      #user-profile {
-        font-size: 10px;
-      }
-      #user-info-container, #playlist-container, #user-current-playlist-container {
-
-      }
-
-      .chosen-track-item {
-        color: #fff;
-        background-color: #c00;
-      }
-      .ghost-track-item {
-        opacity: .5;
-        background: #C8EBFB;
-      }
-      .track-item {
-        transition: all .5s;
-        cursor: move;
-      }
-
-    </style>
   </head>
 
   <body>
@@ -87,10 +55,12 @@
       <h1>Found {{total}} playlists</h1>
       <div><a href="{{href}}">Source</a></div>
       {{#each items}}
-      <div class="playlist-name">{{name}}</div>
-      <div class="playlist-tracks">Tracks: {{tracks.total}}</div>
-      <div class="playlist-type">Type: {{type}}</div>
-      <button id="playlist-{{id}}" data-playlist-id="{{id}}">Load Tracks</button>
+      <div class="user-playlist-container">
+        <div class="playlist-name">{{name}}</div>
+        <div class="playlist-tracks">Tracks: {{tracks.total}}</div>
+        <div class="playlist-type">Type: {{type}}</div>
+        <button id="playlist-{{id}}" data-playlist-id="{{id}}">Load Tracks</button>
+      </div>
       {{/each}}
     </script>
 
@@ -107,24 +77,28 @@
       <div id="track-list" class="track-list-group">
         {{#each tracks.items}}
         <div class="track-item" data-id={{track.uri}}>
-          <span class="glyphicon glyphicon-move" aria-hidden="true">::</span>
-          <div class="track-number" data-track-number={{track.track_number}}>#{{track.track_number}}</div>
-          {{#each track.artists}}
-            <div class="artist-name">Artist: {{name}}</div>
-          {{/each}}
-          {{#each track.album.images}}
+          <div class="track-info">
+            {{#each track.album.images}}
             {{#if @last}}
-          <img class="album-image" src={{url}}>
-            {{/if}}
-          {{/each}}
-          <div class="album-name">Album: {{track.album.name}}</div>
-          <div class="track-name">Name: {{track.name}}</div>
-          <div>
-            Preview: <audio controls><source src="{{track.preview_url}}" type="audio/mpeg"></audio>          
+            <img class="album-image" src={{url}}> 
+            {{/if}} 
+            {{/each}}
+            <div class="track-number" data-track-number={{track.track_number}}>#{{track.track_number}}</div>
+            {{#each track.artists}}
+            <div class="artist-name">Artist: {{name}}</div>
+            {{/each}}
+            <div class="album-name">Album: {{track.album.name}}</div>
+            <div class="track-name">Name: {{track.name}}</div>
+          </div>
+          <div class="track-preview">
+            Preview:
+            <audio controls>
+              <source src="{{track.preview_url}}" type="audio/mpeg">
+            </audio>
           </div>
         </div>
         {{/each}}
-      </div>  
+      </div>
     </script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
@@ -232,7 +206,6 @@
                   userCurrentPlaylist = data;
                   var trackListElem = document.getElementById('track-list');
                   sortablePlaylist = Sortable.create(trackListElem, {
-                    handle: '.glyphicon-move',
                     animation: 150,
                     delay: 100,
                     chosenClass: 'chosen-track-item',
