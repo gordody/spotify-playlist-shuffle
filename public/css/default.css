@@ -1,0 +1,136 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#login, #loggedin, #user-current-playlist {
+  display: none;
+}
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 500px;
+}
+
+#user-profile {
+  font-size: 10px;
+}
+#user-info-container, #playlist-container, #user-current-playlist-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-playlist-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.user-playlist-container div {
+  height: 30px;
+  padding: 5px;
+}
+
+.playlist-name {
+  flex-basis: 200px;
+}
+
+.playlist-tracks {
+  flex-basis: 100px;
+}
+
+.playlist-type {
+  flex-basis: 100px;
+}
+
+.track-item {
+  display: flex;
+  flex-direction: column;
+
+  transition: all .5s;
+  cursor: move;
+  cursor: -webkit-grab;
+
+  border: 1px solid grey;
+  padding: 3px;
+  margin: 2px;
+
+  font-size: 14px;
+}
+
+.track-item:hover {
+  background-color: rgba(148, 192, 230, 0.5)
+}
+
+.track-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.track-description-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.track-number-and-title {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2em;
+}
+
+.track-artists-and-album {
+  display: flex;
+  flex-direction: row;
+}
+
+.album-image {
+  height: 64px;
+  width: 64px;
+}
+
+
+.track-preview {
+}
+
+
+
+.track-item div {
+  padding: 2px;
+  cursor: move;
+  cursor: -webkit-grab;
+}
+
+
+
+.artist-name {
+}
+
+.album-name {
+}
+
+.track-name {
+  
+}
+
+.track-preview {
+}
+
+.chosen-track-item {
+  color: #fff;
+  background-color: #5e91d4;
+  cursor: move;
+  cursor: -webkit-grabbing;
+}
+
+.ghost-track-item {
+  opacity: .5;
+  background: #C8EBFB;
+}
+
+#upload-status {
+  margin: 2px;
+  padding: 5px;
+  text-align: center;
+  font-size: 18px;
+  background-color: #abf;
+}
