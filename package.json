@@ -7,14 +7,13 @@
   "license": "MIT",
   "dependencies": {
     "cookie-parser": "1.3.2",
-    "eslint": "^4.6.0",
     "express": "~4.0.0",
-    "just-handlebars-helpers": "^1.0.13",
     "querystring": "~0.2.0",
     "request": "~2.34.0"
   },
   "devDependencies": {
-    "handlebar": "^1.0.0",
-    "spotify-web-api-js": "^0.22.1"
+    "eslint": "^4.6.0",
+    "spotify-web-api-js": "^0.22.1",
+    "just-handlebars-helpers": "^1.0.13"
   }
 }
