@@ -76,27 +76,37 @@
       <h3>Tracks</h3>
       <div id="track-list" class="track-list-group">
         {{#each tracks.items}}
-        <div class="track-item" data-id={{track.uri}}>
+        {{#with track}}
+        <div class="track-item" data-id={{uri}}>
           <div class="track-info">
-            {{#each track.album.images}}
+            {{#each album.images}}
             {{#if @last}}
             <img class="album-image" src={{url}}> 
             {{/if}} 
             {{/each}}
-            <div class="track-number" data-track-number={{track.track_number}}>#{{track.track_number}}</div>
-            {{#each track.artists}}
-            <div class="artist-name">Artist: {{name}}</div>
-            {{/each}}
-            <div class="album-name">Album: {{track.album.name}}</div>
-            <div class="track-name">Name: {{track.name}}</div>
+            <div class="track-description-container">
+              <div class="track-number-and-title">
+                <div class="track-number">{{sum 1 @index}}.</div><div class="track-name">{{name}}</div>
+              </div>
+              <div class="track-artists-and-album">
+                {{#each artists}}
+                <div class="artist-name">{{name}}</div>
+                {{#unless @last}}
+                <div class="inline-divider">–</div>
+                {{/unless}}
+                {{/each}}
+                <div class="inline-divider">•</div>
+                <div class="album-name">{{album.name}}</div>
+              </div>
+            </div>
           </div>
-          <div class="track-preview">
-            Preview:
+          <div class="track-preview" title="Preview">
             <audio controls>
-              <source src="{{track.preview_url}}" type="audio/mpeg">
+              <source src="{{preview_url}}" type="audio/mpeg">
             </audio>
           </div>
         </div>
+        {{/with}}
         {{/each}}
       </div>
     </script>
@@ -105,8 +115,11 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sortablejs@1.6.1/Sortable.min.js"></script>    
     <script src="libs/spotify-web-api/0.22.1/spotify-web-api.js"></script>
+    <script src="libs/just-handlebars-helpers/1.0.13/h.min.js"></script>
     <script>
       (function() {
+        // Register helpers for Handlebars
+        H.registerHelpers(Handlebars);
 
         /**
          * Obtains parameters from the hash of the URL
@@ -225,12 +238,13 @@
               var playlist_id = userCurrentPlaylist.id;
               var newTrackIdOrder = sortablePlaylist.toArray();
 
+              $('#upload-status').text('Starting upload');
               spotifyApi.replaceTracksInPlaylist(user_id, playlist_id, newTrackIdOrder).then(data => {
                 console.log('Tracks updated');
                 $('#upload-status').text('Upload finished');
               }).catch(err => {
                 console.log('Tracks update failed', err);
-                $('#upload-status').text('Upload failed: ' + err);                
+                $('#upload-status').text('Upload failed: ' + err);
               });
             });
           }
