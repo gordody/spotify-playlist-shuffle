@@ -9,7 +9,7 @@
   <body>
     <div class="container">
       <div id="login">
-        <h1>Playlist sorting with Spotify (with Authorization)</h1>
+        <h3>Playlist sorting with Spotify (with Authorization)</h3>
         <a href="/login" class="btn btn-primary">Log in with Spotify</a>
       </div>
       <div id="loggedin">
@@ -32,19 +32,31 @@
     </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template">
-      <h1>Logged in as {{display_name}}</h1>
+      <h3>Hi 
+        {{#if display_name}}
+          {{display_name}}
+        {{else}}
+          {{id}}
+        {{/if}}
+      </h3>
       <div class="media">
+        {{#if images.0.url}}
         <div class="pull-left">
           <img class="media-object" width="150" src="{{images.0.url}}" />
         </div>
-        <div class="media-body">
+        {{/if}}
+        <div id="user-info" class="media-body">
           <dl class="dl-horizontal">
+            {{#if display_name}}
             <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
+            {{/if}}
             <dt>Id</dt><dd>{{id}}</dd>
             <dt>Email</dt><dd>{{email}}</dd>
             <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
             <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
+            {{#if images.0.url}}
             <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
+            {{/if}}
             <dt>Country</dt><dd>{{country}}</dd>
           </dl>
         </div>
