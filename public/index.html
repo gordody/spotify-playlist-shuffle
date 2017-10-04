@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Playlist sorting with Spotify</title>
+    <title>Playlist sorting for Spotify</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/default.css">
   </head>
 
   <body>
+    <h3>Playlist sorting for Spotify</h3>
+    <hr/>
+    <div id="app-description">
+      Sort your Spotify playlists online
+    </div>
     <div class="container">
-      <div id="login">
-        <h3>Playlist sorting with Spotify (with Authorization)</h3>
+      <div id="login">    
         <a href="/login" class="btn btn-primary">Log in with Spotify</a>
       </div>
       <div id="loggedin">
         <div id="user-info-container">
           <div id="user-profile">
           </div>
+          <!--
           <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+          -->
         </div>
         <div id="playlist-container">
           <button class="btn btn-default" id="get-user-playlists">Get Playlists</button>
@@ -70,22 +76,24 @@
       <div class="user-playlist-container">
         <div class="playlist-name">{{name}}</div>
         <div class="playlist-tracks">Tracks: {{tracks.total}}</div>
+        <!--
         <div class="playlist-type">Type: {{type}}</div>
-        <button id="playlist-{{id}}" data-playlist-id="{{id}}">Load Tracks</button>
+        -->
+        <button class="btn btn-default btn-load-tracks" id="playlist-{{id}}" data-playlist-id="{{id}}">Load Tracks</button>
       </div>
       {{/each}}
     </script>
 
     <script id="user-current-playlist-template" type="text/x-handlebars-template">
-      <h2>Found {{total}} tracks</h2>
-      <div>Name: {{name}}</div>
-      <div>Description: {{description}}</div>
+      <h2>{{name}}: {{tracks.total}} Tracks</h2>
+      {{#if description}}
+        <div>Description: {{description}}</div>
+      {{/if}}
       <div>
         {{#if images.[0]}}
           <img height=100 width=100 src="{{images.0.url}}"/>
         {{/if}}
       </div>
-      <h3>Tracks</h3>
       <div id="track-list" class="track-list-group">
         {{#each tracks.items}}
         {{#with track}}
@@ -132,6 +140,11 @@
       (function() {
         // Register helpers for Handlebars
         H.registerHelpers(Handlebars);
+
+        /*
+        $(document).ready(function() {
+
+        });
 
         /**
          * Obtains parameters from the hash of the URL
@@ -188,6 +201,8 @@
               userProfile = data;
               $('#login').hide();
               $('#loggedin').show();
+            }).catch(err => {
+              $('#login').show();              
             });
           } else {
               // render initial screen
@@ -237,7 +252,7 @@
                     ghostClass: 'ghost-track-item'
                   });
                   setupUploadPlaylistHandler();
-                  $('#user-current-playlist').show();
+                  $('#user-current-playlist-container').show();
                 });
               }
               e.stopPropagation();
@@ -250,6 +265,7 @@
               var playlist_id = userCurrentPlaylist.id;
               var newTrackIdOrder = sortablePlaylist.toArray();
 
+              $('#upload-status').show();
               $('#upload-status').text('Starting upload');
               spotifyApi.replaceTracksInPlaylist(user_id, playlist_id, newTrackIdOrder).then(data => {
                 console.log('Tracks updated');
@@ -264,6 +280,12 @@
         }
       })();
     </script>
+    <div id="content-footer">
+      <hr/>
+      <div>
+          Made by Gyuri Ordody &copy; 2017 · Check out the <a href="https://github.com/gordody/spotify-playlist-shuffle" target="_blank">code on GitHub <img src="img/GitHub-Mark-32px.png" height="16" width="16"></a>
+      </div>
+    </div>
   </body>
 </html>
 

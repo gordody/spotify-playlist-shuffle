@@ -1,8 +1,21 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  background-color: #444f5d;
+  color: #111;
 }
 
-#login, #loggedin, #user-current-playlist {
+.btn-default {
+  background-color: rgb(122, 124, 142);
+  border-color: #82839e;
+}
+
+.btn-default:hover {
+  background-color: rgb(143, 147, 175);
+  border-color: #9394b9;
+}
+
+#login, #loggedin, #user-current-playlist-container {
   display: none;
 }
 .text-overflow {
@@ -12,10 +25,18 @@ body {
   width: 500px;
 }
 
+#app-description {
+  font-size: 18px;
+  color: #888;
+  margin: 20px;
+  padding: 20px;
+}
+
 #user-profile {
   font-size: 10px;
+  text-align: left;
 }
-#user-info-container, #playlist-container, #user-current-playlist-container {
+#user-info-container, #playlist-container, #user-current-playlist-container.show {
   display: flex;
   flex-direction: column;
 }
@@ -36,6 +57,9 @@ body {
   padding: 0 0 0 15px;
 }
 
+.btn-load-tracks {
+  float: right;
+}
 .user-playlist-container {
   display: flex;
   flex-direction: row;
@@ -144,7 +168,11 @@ body {
 }
 
 #upload-status {
-  margin: 2px;
+  display: none;
+}
+
+#upload-status {
+  margin: 15px 0 0 0;
   padding: 5px;
   text-align: center;
   font-size: 18px;
