@@ -9,9 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ### Changed
-- Fixed dependencies
-- Added changelog
-- Styling
 
 ### Removed
 - removed unused tsconfig
@@ -21,5 +18,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Security
+
+## [0.0.3] - 2017-10-03
+### Changed
+- Fixed dependencies
+- Added changelog
+- Styling
 
 ## [0.0.2] - 2017-09-23
