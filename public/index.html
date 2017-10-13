@@ -41,105 +41,12 @@
       </div>
     </div>
 
-    <script id="user-profile-template" type="text/x-handlebars-template">
-      <h3>Hi 
-        {{#if display_name}}
-          {{display_name}}
-        {{else}}
-          {{id}}
-        {{/if}}
-      </h3>
-      <div class="media">
-        {{#if images.0.url}}
-        <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
-        </div>
-        {{/if}}
-        <div id="user-info" class="media-body">
-          <dl class="dl-horizontal">
-            {{#if display_name}}
-            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-            {{/if}}
-            <dt>Id</dt><dd>{{id}}</dd>
-            <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-            {{#if images.0.url}}
-            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
-            {{/if}}
-            <dt>Country</dt><dd>{{country}}</dd>
-          </dl>
-        </div>
-      </div>
-    </script>
-
-    <script id="user-playlists-template" type="text/x-handlebars-template">
-      <h1>Found {{total}} playlists</h1>
-      <div><a href="{{href}}">Source</a></div>
-      {{#each items}}
-      <div class="user-playlist-container">
-        <div class="playlist-name">{{name}}</div>
-        <div class="playlist-tracks">Tracks: {{tracks.total}}</div>
-        <!--
-        <div class="playlist-type">Type: {{type}}</div>
-        -->
-        <button class="btn btn-default btn-load-tracks" id="playlist-{{id}}" data-playlist-id="{{id}}">Load Tracks</button>
-      </div>
-      {{/each}}
-    </script>
-
-    <script id="user-current-playlist-template" type="text/x-handlebars-template">
-      <h2>{{name}}: {{tracks.total}} Tracks</h2>
-      {{#if description}}
-        <div>Description: {{description}}</div>
-      {{/if}}
-      <div>
-        {{#if images.[0]}}
-          <img height=100 width=100 src="{{images.0.url}}"/>
-        {{/if}}
-      </div>
-      <div id="track-list" class="track-list-group">
-        {{#each tracks.items}}
-        {{#with track}}
-        <div class="track-item" data-id={{uri}}>
-          <div class="track-info">
-            {{#each album.images}}
-            {{#if @last}}
-            <img class="album-image" src={{url}}> 
-            {{/if}} 
-            {{/each}}
-            <div class="track-description-container">
-              <div class="track-number-and-title">
-                <div class="track-number">{{sum 1 @index}}.</div><div class="track-name">{{name}}</div>
-              </div>
-              <div class="track-artists-and-album">
-                {{#each artists}}
-                <div class="artist-name">{{name}}</div>
-                {{#unless @last}}
-                <div class="inline-divider">–</div>
-                {{/unless}}
-                {{/each}}
-                <div class="inline-divider">•</div>
-                <div class="album-name">{{album.name}}</div>
-              </div>
-            </div>
-          </div>
-          <div class="track-preview" title="Preview">
-            <audio controls>
-              <source src="{{preview_url}}" type="audio/mpeg">
-            </audio>
-          </div>
-        </div>
-        {{/with}}
-        {{/each}}
-      </div>
-    </script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.runtime.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sortablejs@1.6.1/Sortable.min.js"></script>
     <script src="libs/spotify-web-api/0.22.1/spotify-web-api.js"></script>
     <script src="libs/just-handlebars-helpers/1.0.13/h.min.js"></script>
+    <script src="handlebars_out/templates.js"></script>    
     <script>
       (function () {
         // Register helpers for Handlebars
@@ -164,17 +71,14 @@
           return hashParams;
         }
 
-        var userProfileSource = document.getElementById('user-profile-template').innerHTML,
-          userProfileTemplate = Handlebars.compile(userProfileSource),
-          userProfilePlaceholder = document.getElementById('user-profile');
+        var userProfileTemplate = Handlebars.templates.user_profile_template;
+        var userProfilePlaceholder = document.getElementById('user-profile');
 
-        var userPlaylistsSource = document.getElementById('user-playlists-template').innerHTML,
-          userPlaylistsTemplate = Handlebars.compile(userPlaylistsSource),
-          userPlaylistsPlaceholder = document.getElementById('user-playlists');
+        var userPlaylistsTemplate = Handlebars.templates.user_playlist_template;
+        var userPlaylistsPlaceholder = document.getElementById('user-playlists');
 
-        var userCurrentPlaylistSource = document.getElementById('user-current-playlist-template').innerHTML,
-          userCurrentPlaylistTemplate = Handlebars.compile(userCurrentPlaylistSource),
-          userCurrentPlaylistPlaceholder = document.getElementById('user-current-playlist');
+        var userCurrentPlaylistTemplate = Handlebars.templates.user_current_playlist_template;
+        var userCurrentPlaylistPlaceholder = document.getElementById('user-current-playlist');
 
         var userProfile;
         var userPlaylists;

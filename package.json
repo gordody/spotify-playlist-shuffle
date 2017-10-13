@@ -13,10 +13,12 @@
   },
   "devDependencies": {
     "eslint": "^4.6.0",
+    "handlebars": "^4.0.10",
     "just-handlebars-helpers": "^1.0.13",
     "spotify-web-api-js": "^0.22.1"
   },
   "scripts": {
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "compile-handlebars": "handlebars src/handlebars_templates/ -f public/handlebars_out/templates.js"
   }
 }

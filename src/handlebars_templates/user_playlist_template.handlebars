@@ -1,0 +1,12 @@
+<h1>Found {{total}} playlists</h1>
+<div><a href="{{href}}">Source</a></div>
+{{#each items}}
+<div class="user-playlist-container">
+  <div class="playlist-name">{{name}}</div>
+  <div class="playlist-tracks">Tracks: {{tracks.total}}</div>
+  <!--
+  <div class="playlist-type">Type: {{type}}</div>
+  -->
+  <button class="btn btn-default btn-load-tracks" id="playlist-{{id}}" data-playlist-id="{{id}}">Load Tracks</button>
+</div>
+{{/each}}

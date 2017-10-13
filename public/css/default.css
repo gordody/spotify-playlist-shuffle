@@ -72,15 +72,36 @@ body {
   float: right;
 }
 
+#user-profile .dl-horizontal {
+  width: 400px;
+}
+
 #user-profile .dl-horizontal dt {
   clear: left;
   float: left;
+  padding: 0 5px 0 0;
 }
 
 #user-profile .dl-horizontal dd {
   clear: right;
-  margin: 0 0 0 50px;
-  padding: 0 0 0 15px;
+  margin: 0 0 0 20px;
+  padding: 0 0 0 25px;
+}
+
+.main .btn-default {
+  color: #e8e3e3;
+}
+
+#get-user-playlists {
+  background-color: #436575;
+}
+
+
+#get-user-playlists :active,
+#get-user-playlists :focus,
+#get-user-playlists :active,
+#get-user-playlists :visited {
+  background-color: #bf1010;
 }
 
 .btn-load-tracks {

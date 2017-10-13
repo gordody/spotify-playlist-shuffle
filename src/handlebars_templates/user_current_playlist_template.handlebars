@@ -1,0 +1,44 @@
+<h2>{{name}}: {{tracks.total}} Tracks</h2>
+{{#if description}}
+  <div>Description: {{description}}</div>
+{{/if}}
+<div>
+  {{#if images.[0]}}
+    <img height=100 width=100 src="{{images.0.url}}"/>
+  {{/if}}
+</div>
+<div id="track-list" class="track-list-group">
+  {{#each tracks.items}}
+  {{#with track}}
+  <div class="track-item" data-id={{uri}}>
+    <div class="track-info">
+      {{#each album.images}}
+      {{#if @last}}
+      <img class="album-image" src={{url}}> 
+      {{/if}} 
+      {{/each}}
+      <div class="track-description-container">
+        <div class="track-number-and-title">
+          <div class="track-number">{{sum 1 @index}}.</div><div class="track-name">{{name}}</div>
+        </div>
+        <div class="track-artists-and-album">
+          {{#each artists}}
+          <div class="artist-name">{{name}}</div>
+          {{#unless @last}}
+          <div class="inline-divider">–</div>
+          {{/unless}}
+          {{/each}}
+          <div class="inline-divider">•</div>
+          <div class="album-name">{{album.name}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="track-preview" title="Preview">
+      <audio controls>
+        <source src="{{preview_url}}" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+  {{/with}}
+  {{/each}}
+</div>
