@@ -16,7 +16,7 @@ var settings = require('../config/settings.json');
 var client_id = settings.credentials.clientId;            // Your client id
 var client_secret = settings.credentials.clientSecret;    // Your secret
 var scopes = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+var redirect_uri = settings.redirect_url; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
