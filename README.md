@@ -20,3 +20,6 @@ npm i
   * Remove user data from top
 * Break up code
 * Handlebar precompile
+
+# Other
+SSL Cert: https://letsencrypt.org/getting-started/ and https://certbot.eff.org/

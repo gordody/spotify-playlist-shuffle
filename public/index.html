@@ -4,7 +4,7 @@
 <head>
   <title>Playlist sorting for Spotify</title>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/default.css">
+  <link rel="stylesheet" href="css/default.css">
 </head>
 
 <body>
@@ -18,7 +18,7 @@
   <div class="main">
     <div class="container">
       <div id="login">
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+        <a href="http://localhost:8888/spotify_playlist_shuffle/login" class="btn btn-primary">Log in with Spotify</a>
       </div>
       <div id="loggedin">
         <div id="user-info-container">
@@ -58,6 +58,8 @@
   <script src="handlebars_out/templates.js"></script>    
   <script>
     (function () {
+      var app_root = "/spotify_playlist_shuffle/";  // TODO: get it from node.js
+
       // Register helpers for Handlebars
       H.registerHelpers(Handlebars);
 
@@ -129,7 +131,7 @@
 
         $('#obtain-new-token').on('click', function () {
           $.ajax({
-            url: '/refresh_token',
+            url: app_root + 'refresh_token',
             data: {
               'refresh_token': refresh_token
             }

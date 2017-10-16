@@ -16,7 +16,11 @@ var settings = require('../config/settings.json');
 var client_id = settings.credentials.clientId;            // Your client id
 var client_secret = settings.credentials.clientSecret;    // Your secret
 var scopes = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
-var redirect_uri = settings.redirect_url; // Your redirect uri
+var redirect_uri = settings.url_data.redirect_url; // Your redirect uri
+var appRoot = settings.url_data.app_root;
+var loginPath = appRoot + 'login';
+var callbackPath = '/callback';
+var refreshTokenPath = appRoot + 'refresh_token';
 
 /**
  * Generates a random string containing numbers and letters
@@ -37,10 +41,10 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 
-app.use(express.static(__dirname + '/../public'))
+app.use(appRoot, express.static(__dirname + '/../public'))
    .use(cookieParser());
 
-app.get('/login', function(req, res) {
+app.get(loginPath, function(req, res) {
 
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -56,7 +60,7 @@ app.get('/login', function(req, res) {
     }));
 });
 
-app.get('/callback', function(req, res) {
+app.get(callbackPath, function(req, res) {
 
   // your application requests refresh and access tokens
   // after checking the state parameter
@@ -66,7 +70,7 @@ app.get('/callback', function(req, res) {
   var storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
-    res.redirect('/#' +
+    res.redirect(appRoot + '#' +
       querystring.stringify({
         error: 'state_mismatch'
       }));
@@ -103,13 +107,13 @@ app.get('/callback', function(req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
+        res.redirect(appRoot + '#' +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
           }));
       } else {
-        res.redirect('/#' +
+        res.redirect(appRoot + '#' +
           querystring.stringify({
             error: 'invalid_token'
           }));
@@ -118,7 +122,7 @@ app.get('/callback', function(req, res) {
   }
 });
 
-app.get('/refresh_token', function(req, res) {
+app.get(refreshTokenPath, function(req, res) {
 
   // requesting access token from refresh token
   var refresh_token = req.query.refresh_token;
