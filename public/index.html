@@ -58,10 +58,13 @@
   <script src="handlebars_out/templates.js"></script>    
   <script>
     (function () {
-      var app_root = "/spotify_playlist_shuffle/";  // TODO: get it from node.js
-
       // Register helpers for Handlebars
       H.registerHelpers(Handlebars);
+
+      function getLocationRoot() {
+        var loc = window.location;
+        return loc.protocol + '//' + loc.hostname + ':' + loc.port + '/' + loc.pathname;
+      }
 
       /*
       $(document).ready(function() {
@@ -131,7 +134,7 @@
 
         $('#obtain-new-token').on('click', function () {
           $.ajax({
-            url: app_root + 'refresh_token',
+            url: getLocationRoot() + 'refresh_token',
             data: {
               'refresh_token': refresh_token
             }
