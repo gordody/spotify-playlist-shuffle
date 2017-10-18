@@ -8,7 +8,7 @@ Seems to be a missing feature:
 npm i
 
 # Current version:
-v0.0.3
+v0.0.4
 
 # Libraries used:
 * Handlebar (4.0.10): http://handlebarsjs.com/
