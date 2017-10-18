@@ -7,6 +7,9 @@ Seems to be a missing feature:
 # Installation
 npm i
 
+# Current version:
+v0.0.3
+
 # Libraries used:
 * Handlebar (4.0.10): http://handlebarsjs.com/
 * Just Handlebars Helpers (1.0.13): https://github.com/leapfrogtechnology/just-handlebars-helpers
@@ -18,8 +21,6 @@ npm i
 # TODO
 * CSS/Formatting
   * Remove user data from top
-* Break up code
-* Handlebar precompile
 
 # Other
-SSL Cert: https://letsencrypt.org/getting-started/ and https://certbot.eff.org/
+SSL Certificates on deployed site: https://letsencrypt.org/getting-started/ and https://certbot.eff.org/

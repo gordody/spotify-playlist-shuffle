@@ -11,7 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 ### Removed
-- removed unused tsconfig
+- removed unused tsconfig, server.js
+- using precomiled handlebar templates
+- moved said templates to thier own folder
+- added npm script to generate handlebar script from templates
+- added settings for app base path to support deployment
+- lot's of styling, more to come
 
 ### Deprecated
 
