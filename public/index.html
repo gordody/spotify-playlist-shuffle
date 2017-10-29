@@ -55,7 +55,7 @@
   <script src="//cdn.jsdelivr.net/npm/sortablejs@1.6.1/Sortable.min.js"></script>
   <script src="libs/spotify-web-api/0.22.1/spotify-web-api.js"></script>
   <script src="libs/just-handlebars-helpers/1.0.13/h.min.js"></script>
-  <script src="handlebars_out/templates.js"></script>    
+  <script src="handlebars_out/templates.js"></script>
   <script>
     (function () {
       // Register helpers for Handlebars
@@ -125,6 +125,8 @@
             userProfile = data;
             $('#login').hide();
             $('#loggedin').show();
+
+            getUserPlaylists();
           }).catch(err => {
             $('#login').show();
           });
@@ -134,7 +136,7 @@
           $('#loggedin').hide();
         }
 
-        $('#obtain-new-token').on('click', function () {
+        var obtainNewToken = function () {
           $.ajax({
             url: getLocationRoot() + 'refresh_token',
             data: {
@@ -148,57 +150,65 @@
               refresh_token: refresh_token
             });
           });
-        }, false);
+        };
 
-        $('#get-user-playlists').on('click', function () {
+        var getUserPlaylists = function () {
           spotifyApi.getUserPlaylists().then(data => {
             userPlaylistsPlaceholder.innerHTML = userPlaylistsTemplate(data);
             userPlaylists = data;
             setupPlaylistLoader();
           });
-        });
+        };
+
+        var getUserPlaylist = function (userId, playlistId) {
+          spotifyApi.getPlaylist(userId, playlistId).then(data => {
+            userCurrentPlaylistPlaceholder.innerHTML = userCurrentPlaylistTemplate(data);
+            userCurrentPlaylist = data;
+            var trackListElem = document.getElementById('track-list');
+            sortablePlaylist = Sortable.create(trackListElem, {
+              animation: 150,
+              delay: 100,
+              chosenClass: 'chosen-track-item',
+              ghostClass: 'ghost-track-item'
+            });
+            setupUploadPlaylistHandler();
+            $('#user-current-playlist-container').show();   // TODO(go) only show if something changed
+          });
+        };
+
+        var uploadPlaylist = function () {
+          var user_id = userProfile.id;
+          var playlist_id = userCurrentPlaylist.id;
+          var newTrackIdOrder = sortablePlaylist.toArray();
+
+          $('#upload-status').show();
+          $('#upload-status').text('Starting upload');
+          spotifyApi.replaceTracksInPlaylist(user_id, playlist_id, newTrackIdOrder).then(data => {
+            console.log('Tracks updated');
+            $('#upload-status').text('Upload finished');
+          }).catch(err => {
+            console.log('Tracks update failed', err);
+            $('#upload-status').text('Upload failed: ' + err);
+          });
+        }
+
+        $('#obtain-new-token').on('click', obtainNewToken, false);
+        $('#get-user-playlists').on('click', getUserPlaylists);
 
         function setupPlaylistLoader() {
           $('#user-playlists').on('click', function (e) {
             var target = e.target;
             if (target.hasAttribute('data-playlist-id')) {
-              var user_id = userProfile.id;
-              var playlist_id = $('#' + target.id).data('playlist-id');
-
-              spotifyApi.getPlaylist(user_id, playlist_id).then(data => {
-                userCurrentPlaylistPlaceholder.innerHTML = userCurrentPlaylistTemplate(data);
-                userCurrentPlaylist = data;
-                var trackListElem = document.getElementById('track-list');
-                sortablePlaylist = Sortable.create(trackListElem, {
-                  animation: 150,
-                  delay: 100,
-                  chosenClass: 'chosen-track-item',
-                  ghostClass: 'ghost-track-item'
-                });
-                setupUploadPlaylistHandler();
-                $('#user-current-playlist-container').show();
-              });
+              var userId = userProfile.id;
+              var playlistId = $('#' + target.id).data('playlist-id');
+              getUserPlaylist(userId, playlistId);
             }
             e.stopPropagation();
           });
         }
 
         function setupUploadPlaylistHandler() {
-          $('#upload-changed-playlist').on('click', function (e) {
-            var user_id = userProfile.id;
-            var playlist_id = userCurrentPlaylist.id;
-            var newTrackIdOrder = sortablePlaylist.toArray();
-
-            $('#upload-status').show();
-            $('#upload-status').text('Starting upload');
-            spotifyApi.replaceTracksInPlaylist(user_id, playlist_id, newTrackIdOrder).then(data => {
-              console.log('Tracks updated');
-              $('#upload-status').text('Upload finished');
-            }).catch(err => {
-              console.log('Tracks update failed', err);
-              $('#upload-status').text('Upload failed: ' + err);
-            });
-          });
+          $('#upload-changed-playlist').on('click', uploadPlayslist);
         }
 
       }
