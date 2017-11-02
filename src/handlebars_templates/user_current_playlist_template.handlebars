@@ -12,6 +12,7 @@
   {{#with track}}
   <div class="track-item" data-id={{uri}}>
     <div class="track-info">
+      <span class="drag-handle">☰</span>
       {{#each album.images}}
       {{#if @last}}
       <img class="album-image" src={{url}}> 
@@ -37,6 +38,9 @@
       <audio controls>
         <source src="{{preview_url}}" type="audio/mpeg">
       </audio>
+    </div>
+    <div>
+    <div class="remove-button">✖</div>
     </div>
   </div>
   {{/with}}

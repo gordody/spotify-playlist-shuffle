@@ -7,17 +7,27 @@ body {
 
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
-  /*background-color: #444f5d;*/
+  background-color: #444f5d;
   color: rgb(210, 214, 255);
 
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#515599+0,201656+87 */
+}
+
+body_bck {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#515599+0,201656+87 */
   background: #515599; /* Old browsers */
   background: -moz-linear-gradient(top, #515599 0%, #201656 87%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, #515599 0%,#201656 87%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #515599 0%,#201656 87%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#515599', endColorstr='#201656',GradientType=0 ); /* IE6-9 */
-
 }
+
+@media only screen and (max-device-width: 600px) {
+  /* define mobile specific styles come here */
+  html * {
+    font-size: 36px;
+   }
+}
+
 
 .header {
 }
@@ -92,21 +102,18 @@ body {
   color: #e8e3e3;
 }
 
-#get-user-playlists {
-  background-color: #436575;
-}
 
-
-#get-user-playlists :active,
-#get-user-playlists :focus,
-#get-user-playlists :active,
-#get-user-playlists :visited {
-  background-color: #bf1010;
+#user-playlists .btn-default:active,
+#user-playlists .btn-default:focus {
+  background-color: #858798;
 }
 
 .btn-load-tracks {
   float: right;
+  padding: 5px 10px 5px 10px;
+  margin: 5px;
 }
+
 .user-playlist-container {
   display: flex;
   flex-direction: row;
@@ -207,6 +214,18 @@ body {
   background-color: #5e91d4;
   cursor: move;
   cursor: -webkit-grabbing;
+}
+
+.track-info .drag-handle {
+  visibility: hidden;
+  display: none;
+  font-size: 36px;
+  padding: 10px 0 0 10px;
+  margin-right: 15px;
+}
+
+.track-info .remove-button {
+  font-size: 36px;
 }
 
 .ghost-track-item {

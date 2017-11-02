@@ -21,7 +21,7 @@ templates['user_current_playlist_template'] = template({"1":function(container,d
 
   return "  <div class=\"track-item\" data-id="
     + alias4(((helper = (helper = helpers.uri || (depth0 != null ? depth0.uri : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"uri","hash":{},"data":data}) : helper)))
-    + ">\n    <div class=\"track-info\">\n"
+    + ">\n    <div class=\"track-info\">\n      <span class=\"drag-handle\">☰</span>\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.album : depth0)) != null ? stack1.images : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "      <div class=\"track-description-container\">\n        <div class=\"track-number-and-title\">\n          <div class=\"track-number\">"
     + alias4((helpers.sum || (depth0 && depth0.sum) || alias2).call(alias1,1,(data && data.index),{"name":"sum","hash":{},"data":data}))
@@ -33,7 +33,7 @@ templates['user_current_playlist_template'] = template({"1":function(container,d
     + alias4(container.lambda(((stack1 = (depth0 != null ? depth0.album : depth0)) != null ? stack1.name : stack1), depth0))
     + "</div>\n        </div>\n      </div>\n    </div>\n    <div class=\"track-preview\" title=\"Preview\">\n      <audio controls>\n        <source src=\""
     + alias4(((helper = (helper = helpers.preview_url || (depth0 != null ? depth0.preview_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"preview_url","hash":{},"data":data}) : helper)))
-    + "\" type=\"audio/mpeg\">\n      </audio>\n    </div>\n  </div>\n";
+    + "\" type=\"audio/mpeg\">\n      </audio>\n    </div>\n    <div>\n    <div class=\"remove-button\">✖</div>\n    </div>\n  </div>\n";
 },"7":function(container,depth0,helpers,partials,data) {
     var stack1;
 

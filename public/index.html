@@ -29,7 +29,9 @@
           -->
         </div>
         <div id="playlist-container">
+          <!--
           <button class="btn btn-default" id="get-user-playlists">Get Playlists</button>
+          -->
           <div id="user-playlists">
           </div>
         </div>
@@ -166,10 +168,15 @@
             userCurrentPlaylist = data;
             var trackListElem = document.getElementById('track-list');
             sortablePlaylist = Sortable.create(trackListElem, {
+              // handle: '.drag-handle',
               animation: 150,
-              delay: 100,
+              // delay: 100,
               chosenClass: 'chosen-track-item',
-              ghostClass: 'ghost-track-item'
+              // ghostClass: 'ghost-track-item',
+              filter: '.remove-button',
+              onFilter: function(evt) {
+		          	evt.item.parentNode.removeChild(evt.item);
+		          }
             });
             setupUploadPlaylistHandler();
             $('#user-current-playlist-container').show();   // TODO(go) only show if something changed
@@ -208,7 +215,7 @@
         }
 
         function setupUploadPlaylistHandler() {
-          $('#upload-changed-playlist').on('click', uploadPlayslist);
+          $('#upload-changed-playlist').on('click', uploadPlaylist);
         }
 
       }
