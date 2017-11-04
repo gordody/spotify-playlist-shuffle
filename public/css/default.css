@@ -37,6 +37,23 @@ body_bck {
 
 }
 
+.btn {
+  border-radius: 0.5em;
+  font-size: 1.2em;
+  padding: 0.2em 0.5em;
+  margin: 0.5em 0.2em;
+}
+
+.btn-default {
+  background-color: rgb(122, 124, 142);
+  border-color: #82839e;
+  color: #e8e3e3;
+}
+
+.btn-default:hover {
+  background-color: rgb(143, 147, 175);
+  border-color: #9394b9;
+}
 
 .header {
   align-content: center;
@@ -56,19 +73,11 @@ body_bck {
 }
 
 .footer {
-  padding-bottom: 15px;
+  padding-bottom: 1em;
 }
 
 
-.btn-default {
-  background-color: rgb(122, 124, 142);
-  border-color: #82839e;
-}
 
-.btn-default:hover {
-  background-color: rgb(143, 147, 175);
-  border-color: #9394b9;
-}
 
 #login, #loggedin, #user-current-playlist-container {
   display: none;
@@ -122,20 +131,10 @@ body_bck {
   padding: 0 0 0 25px;
 }
 
-.main .btn-default {
-  color: #e8e3e3;
-}
-
 
 #user-playlists .btn-default:active,
 #user-playlists .btn-default:focus {
   background-color: #858798;
-}
-
-.btn-load-tracks {
-  float: right;
-  padding: 5px 10px 5px 10px;
-  margin: 5px;
 }
 
 .user-playlist-container {
@@ -152,10 +151,17 @@ body_bck {
 .playlist-name {
   margin: auto;
   font-size: 1.2em;
+  padding: 0.5em;
+  margin: 0.5em;
+  text-align: left;
+  flex-grow: 3;
 }
 
 .playlist-tracks {
-  width: 25%;
+  padding: 0.5em;
+  margin: 0.5em;
+  text-align: left;
+  flex-grow: 2;
 }
 
 .playlist-type {
@@ -163,8 +169,10 @@ body_bck {
 
 .btn-load-tracks {
   font-size: 1.2em;
-  margin: 0.1em;
-  padding: 0.5em
+  padding: 0.2em 0.5em;
+  margin: 0.5em 0.2em;
+  align-self: flex-end;
+  flex-grow: 1;
 }
 
 .track-item {
@@ -269,10 +277,6 @@ body_bck {
 .ghost-track-item {
   opacity: .5;
   background: #C8EBFB;
-}
-
-#upload-changed-playlist {
-  font-size: 1.4em;
 }
 
 #upload-status {
