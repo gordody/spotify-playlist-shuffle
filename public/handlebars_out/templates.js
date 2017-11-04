@@ -31,9 +31,9 @@ templates['user_current_playlist_template'] = template({"1":function(container,d
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.artists : depth0),{"name":"each","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "          <div class=\"inline-divider\">•</div>\n          <div class=\"album-name\">"
     + alias4(container.lambda(((stack1 = (depth0 != null ? depth0.album : depth0)) != null ? stack1.name : stack1), depth0))
-    + "</div>\n        </div>\n      </div>\n    </div>\n    <div class=\"track-preview\" title=\"Preview\">\n      <audio controls>\n        <source src=\""
+    + "</div>\n        </div>\n      </div>\n      <div class=\"remove-button\">✖</div>\n    </div>\n    <div class=\"track-preview\" title=\"Preview\">\n      <span>Preview:</span>\n      <audio controls>\n        <source src=\""
     + alias4(((helper = (helper = helpers.preview_url || (depth0 != null ? depth0.preview_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"preview_url","hash":{},"data":data}) : helper)))
-    + "\" type=\"audio/mpeg\">\n      </audio>\n    </div>\n    <div>\n    <div class=\"remove-button\">✖</div>\n    </div>\n  </div>\n";
+    + "\" type=\"audio/mpeg\">\n      </audio>\n    </div>\n  </div>\n";
 },"7":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -125,30 +125,32 @@ templates['user_profile_template'] = template({"1":function(container,depth0,hel
     + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.images : depth0)) != null ? stack1["0"] : stack1)) != null ? stack1.url : stack1), depth0))
     + "</a></dd>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, alias5=container.lambda;
+    var stack1, helper, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {}), alias4=helpers.helperMissing, alias5="function";
 
-  return "<h3>Hi \n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.display_name : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
-    + "</h3>\n<div class=\"media\">\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.images : depth0)) != null ? stack1["0"] : stack1)) != null ? stack1.url : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return "<h3>Hi \n  <a href=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.external_urls : depth0)) != null ? stack1.spotify : stack1), depth0))
+    + "\" target=\"_blank\">\n"
+    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.display_name : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
+    + "  </a>\n</h3>\n<!--\n<div class=\"media\">\n"
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = ((stack1 = (depth0 != null ? depth0.images : depth0)) != null ? stack1["0"] : stack1)) != null ? stack1.url : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "  <div id=\"user-info\" class=\"media-body\">\n    <dl class=\"dl-horizontal\">\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.display_name : depth0),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.display_name : depth0),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "      <dt>Id</dt><dd>"
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + alias2(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"id","hash":{},"data":data}) : helper)))
     + "</dd>\n      <dt>Email</dt><dd>"
-    + alias4(((helper = (helper = helpers.email || (depth0 != null ? depth0.email : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"email","hash":{},"data":data}) : helper)))
+    + alias2(((helper = (helper = helpers.email || (depth0 != null ? depth0.email : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"email","hash":{},"data":data}) : helper)))
     + "</dd>\n      <dt>Spotify URI</dt><dd><a href=\""
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.external_urls : depth0)) != null ? stack1.spotify : stack1), depth0))
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.external_urls : depth0)) != null ? stack1.spotify : stack1), depth0))
     + "\">"
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.external_urls : depth0)) != null ? stack1.spotify : stack1), depth0))
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.external_urls : depth0)) != null ? stack1.spotify : stack1), depth0))
     + "</a></dd>\n      <dt>Link</dt><dd><a href=\""
-    + alias4(((helper = (helper = helpers.href || (depth0 != null ? depth0.href : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"href","hash":{},"data":data}) : helper)))
+    + alias2(((helper = (helper = helpers.href || (depth0 != null ? depth0.href : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"href","hash":{},"data":data}) : helper)))
     + "\">"
-    + alias4(((helper = (helper = helpers.href || (depth0 != null ? depth0.href : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"href","hash":{},"data":data}) : helper)))
+    + alias2(((helper = (helper = helpers.href || (depth0 != null ? depth0.href : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"href","hash":{},"data":data}) : helper)))
     + "</a></dd>\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.images : depth0)) != null ? stack1["0"] : stack1)) != null ? stack1.url : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,((stack1 = ((stack1 = (depth0 != null ? depth0.images : depth0)) != null ? stack1["0"] : stack1)) != null ? stack1.url : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "      <dt>Country</dt><dd>"
-    + alias4(((helper = (helper = helpers.country || (depth0 != null ? depth0.country : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"country","hash":{},"data":data}) : helper)))
-    + "</dd>\n    </dl>\n  </div>\n</div>";
+    + alias2(((helper = (helper = helpers.country || (depth0 != null ? depth0.country : depth0)) != null ? helper : alias4),(typeof helper === alias5 ? helper.call(alias3,{"name":"country","hash":{},"data":data}) : helper)))
+    + "</dd>\n    </dl>\n  </div>\n</div>\n-->";
 },"useData":true});
 })();
