@@ -8,7 +8,7 @@ Seems to be a missing feature:
 npm i
 
 # Current version:
-v0.0.4
+v0.0.6
 
 # Libraries used:
 * Handlebar (4.0.10): http://handlebarsjs.com/
@@ -23,5 +23,5 @@ v0.0.4
   * Remove user data from top
 
 # Other
-SSL Certificates on deployed site: https://letsencrypt.org/getting-started/ and https://certbot.eff.org/
-Icon from: https://www.iconfinder.com/search/?q=shuffle&type=vector&price=free
+# SSL Certificates on deployed site: https://letsencrypt.org/getting-started/ and https://certbot.eff.org/
+# Icon from: https://www.iconfinder.com/search/?q=shuffle&type=vector&price=free
