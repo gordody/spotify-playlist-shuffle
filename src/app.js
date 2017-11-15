@@ -41,6 +41,8 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 
+app.set('trust proxy', 'loopback, 50.112.123.225');
+
 app.use(appRoot, express.static(__dirname + '/../public'))
    .use(cookieParser());
 

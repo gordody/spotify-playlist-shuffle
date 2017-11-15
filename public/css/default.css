@@ -33,8 +33,6 @@ body_bck {
      padding-right: 0.2em;
      padding-left: 0.2em;
    }
-
-
 }
 
 .btn {
@@ -148,6 +146,11 @@ body_bck {
   height: 3.3em;
 }
 
+#playlist-image-container {
+  clear: left;
+  float: left;
+}
+
 .playlist-name {
   margin: auto;
   font-size: 1.2em;
@@ -173,6 +176,10 @@ body_bck {
   margin: 0.5em 0.2em;
   align-self: flex-end;
   flex-grow: 1;
+}
+
+#track-list{
+  clear: both;
 }
 
 .track-item {
@@ -224,11 +231,10 @@ body_bck {
   width: 64px;
 }
 
-
 .track-preview audio {
   background: #112233;
+  vertical-align: middle;
 }
-
 
 
 .track-item div {
@@ -272,6 +278,10 @@ body_bck {
 
 .track-info .remove-button:hover {
   color: #aa0000;
+}
+
+.audio-control {
+  opacity: 0.4;
 }
 
 .ghost-track-item {

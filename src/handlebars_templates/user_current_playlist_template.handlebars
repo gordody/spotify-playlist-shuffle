@@ -1,12 +1,15 @@
-<h2>{{name}}: {{tracks.total}} Tracks</h2>
+<hr/>
+<h2>
+  {{#if images.[0]}}
+    <img height=100 width=100 src="{{images.0.url}}"/>
+ {{/if}}
+ <span>
+  Playlist {{name}} ({{tracks.total}} Tracks)
+ </span>
+</h2>
 {{#if description}}
   <div>Description: {{description}}</div>
 {{/if}}
-<div>
-  {{#if images.[0]}}
-    <img height=100 width=100 src="{{images.0.url}}"/>
-  {{/if}}
-</div>
 <div id="track-list" class="track-list-group">
   {{#each tracks.items}}
   {{#with track}}
@@ -16,11 +19,18 @@
       {{#each album.images}}
       {{#if @last}}
       <img class="album-image" src={{url}}> 
-      {{/if}} 
+      {{/if}}
       {{/each}}
       <div class="track-description-container">
         <div class="track-number-and-title">
-          <div class="track-number">{{sum 1 @index}}.</div><div class="track-name">{{name}}</div>
+          <div class="track-number">{{sum 1 @index}}.</div>
+          <div class="track-name">
+            {{#if external_urls.spotify}}
+            <a href="{{external_urls.spotify}}" target="_blank">{{name}}</a>
+            {{else}}
+            {{name}}
+            {{/if}}
+            </div>
         </div>
         <div class="track-artists-and-album">
           {{#each artists}}
@@ -37,9 +47,7 @@
     </div>
     <div class="track-preview" title="Preview">
       <span>Preview:</span>
-      <audio controls>
-        <source src="{{preview_url}}" type="audio/mpeg">
-      </audio>
+      <audio id="audio-control-{{id}}" class="audio-control" src="{{preview_url}}" controls></audio>
     </div>
   </div>
   {{/with}}
