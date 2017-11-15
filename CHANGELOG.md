@@ -9,7 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ### Changed
-
+- Style updates for hones and tablets
+- Favicon
+- Login status
+- Fix login error so it displays error message if there is one
 ### Removed
 
 ### Deprecated

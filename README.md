@@ -24,3 +24,4 @@ v0.0.4
 
 # Other
 SSL Certificates on deployed site: https://letsencrypt.org/getting-started/ and https://certbot.eff.org/
+Icon from: https://www.iconfinder.com/search/?q=shuffle&type=vector&price=free

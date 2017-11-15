@@ -5,6 +5,8 @@
   <title>Playlist Sorting for Spotify</title>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/default.css">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="img/shuffle_icon.png">
 </head>
 
 <body>
@@ -19,6 +21,7 @@
     <div class="container">
       <div id="login">
         <a href="#" class="btn btn-primary btn-login" id="login-href">Log in with Spotify</a>
+        <div id="login-status"></div>
       </div>
       <div id="loggedin">
         <div id="user-info-container">
@@ -111,8 +114,15 @@
       var spotifyApi = new SpotifyWebApi();
       spotifyApi.setAccessToken(access_token);
 
+      $('#login-status').hide();
+
       if (error) {
-        alert('There was an error during the authentication');
+        $('#login-status').show();
+        $('#login-status').text('There was an error during the authentication:' + error.toString());
+        // render initial screen
+        $('#login-href').attr('href', getLocationRoot() + 'login');
+        $('#login').show();
+        $('#loggedin').hide();
       } else {
         $('#login-href').attr('href', getLocationRoot() + 'login');
         if (access_token) {
