@@ -75,7 +75,7 @@
       function logError(msg) {
         console.error(msg);
         $.ajax({
-          url: getLocationRoot() + '?log=' + encodeURIComponent(msg)
+          url: getLocationRoot() + 'img/log.png?log=' + encodeURIComponent(msg)
         })
       }
 
@@ -125,7 +125,7 @@
 
       if (error) {
         logError('Login error:' + error);
-        
+
         $('#login-status').show();
         $('#login-status').text('There was an error during the authentication:' + error.toString());
         // render initial screen
