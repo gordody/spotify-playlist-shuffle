@@ -15,7 +15,14 @@ var settings = require('../config/settings.json');
 
 var client_id = settings.credentials.clientId;            // Your client id
 var client_secret = settings.credentials.clientSecret;    // Your secret
-var scopes = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
+var scopes = [
+  'playlist-read-private',
+  'playlist-read-collaborative',
+  'playlist-modify-public',
+  'playlist-modify-private',
+  'user-read-private',
+  'user-read-email'
+].join(' ');
 var redirect_uri = settings.url_data.redirect_url; // Your redirect uri
 var appRoot = settings.url_data.app_root;
 var loginPath = appRoot + 'login';

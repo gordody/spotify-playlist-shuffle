@@ -17,25 +17,23 @@ templates['user_current_playlist_template'] = template({"1":function(container,d
 
   return ((stack1 = helpers["with"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.track : depth0),{"name":"with","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"6":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
 
   return "  <div class=\"track-item\" data-id="
-    + alias4(((helper = (helper = helpers.uri || (depth0 != null ? depth0.uri : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"uri","hash":{},"data":data}) : helper)))
+    + alias3(((helper = (helper = helpers.uri || (depth0 != null ? depth0.uri : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"uri","hash":{},"data":data}) : helper)))
     + ">\n    <div class=\"track-info\">\n      <span class=\"drag-handle\">☰</span>\n"
     + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.album : depth0)) != null ? stack1.images : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "      <div class=\"track-description-container\">\n        <div class=\"track-number-and-title\">\n          <div class=\"track-number\">"
-    + alias4((helpers.sum || (depth0 && depth0.sum) || alias2).call(alias1,1,(data && data.index),{"name":"sum","hash":{},"data":data}))
+    + alias3((helpers.sum || (depth0 && depth0.sum) || alias2).call(alias1,1,(data && data.index),{"name":"sum","hash":{},"data":data}))
     + ".</div>\n          <div class=\"track-name\">\n"
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.external_urls : depth0)) != null ? stack1.spotify : stack1),{"name":"if","hash":{},"fn":container.program(10, data, 0),"inverse":container.program(12, data, 0),"data":data})) != null ? stack1 : "")
     + "            </div>\n        </div>\n        <div class=\"track-artists-and-album\">\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.artists : depth0),{"name":"each","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "          <div class=\"inline-divider\">•</div>\n          <div class=\"album-name\">"
-    + alias4(container.lambda(((stack1 = (depth0 != null ? depth0.album : depth0)) != null ? stack1.name : stack1), depth0))
-    + "</div>\n        </div>\n      </div>\n      <div class=\"remove-button\">✖</div>\n    </div>\n    <div class=\"track-preview\" title=\"Preview\">\n      <span>Preview:</span>\n      <audio id=\"audio-control-"
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + "\" class=\"audio-control\" src=\""
-    + alias4(((helper = (helper = helpers.preview_url || (depth0 != null ? depth0.preview_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"preview_url","hash":{},"data":data}) : helper)))
-    + "\" controls></audio>\n    </div>\n  </div>\n";
+    + alias3(container.lambda(((stack1 = (depth0 != null ? depth0.album : depth0)) != null ? stack1.name : stack1), depth0))
+    + "</div>\n        </div>\n      </div>\n      <div class=\"remove-button\">✖</div>\n    </div>\n    <div class=\"track-preview\" title=\"Preview\">\n      <span>Preview:</span>\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.preview_url : depth0),{"name":"if","hash":{},"fn":container.program(17, data, 0),"inverse":container.program(19, data, 0),"data":data})) != null ? stack1 : "")
+    + "    </div>\n  </div>\n";
 },"7":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -69,6 +67,16 @@ templates['user_current_playlist_template'] = template({"1":function(container,d
     + ((stack1 = helpers.unless.call(alias1,(data && data.last),{"name":"unless","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"15":function(container,depth0,helpers,partials,data) {
     return "          <div class=\"inline-divider\">–</div>\n";
+},"17":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "      <audio id=\"audio-control-"
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" class=\"audio-control\" src=\""
+    + alias4(((helper = (helper = helpers.preview_url || (depth0 != null ? depth0.preview_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"preview_url","hash":{},"data":data}) : helper)))
+    + "\" controls></audio>\n";
+},"19":function(container,depth0,helpers,partials,data) {
+    return "      N/A\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.escapeExpression;
 

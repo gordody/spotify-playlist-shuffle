@@ -66,10 +66,17 @@
       // Register helpers for Handlebars
       H.registerHelpers(Handlebars);
 
-      // http://localhost:8888//spotify_playlist_shuffle//login
+      // http://localhost:8888//spotify_playlist_shuffle//
       function getLocationRoot() {
         var loc = window.location;
         return loc.protocol + '//' + loc.hostname + ':' + loc.port + loc.pathname;
+      }
+
+      function logError(msg) {
+        console.error(msg);
+        $.ajax({
+          url: getLocationRoot() + '?log=' + encodeURIComponent(msg)
+        })
       }
 
       /*
@@ -117,6 +124,8 @@
       $('#login-status').hide();
 
       if (error) {
+        logError('Login error:' + error);
+        
         $('#login-status').show();
         $('#login-status').text('There was an error during the authentication:' + error.toString());
         // render initial screen
@@ -141,6 +150,7 @@
             getUserPlaylists();
           }).catch(err => {
             $('#login').show();
+            logError('Spotify getMe failed with error:' + err.toString());
           });
         } else {
           // render initial screen
@@ -161,6 +171,8 @@
               access_token: access_token,
               refresh_token: refresh_token
             });
+          }).fail(err => {
+            logError('Spotify refresh_token failed with error:' + err.toString());
           });
         };
 
@@ -169,6 +181,8 @@
             userPlaylistsPlaceholder.innerHTML = userPlaylistsTemplate(data);
             userPlaylists = data;
             setupPlaylistLoader();
+          }).catch(err => {
+            logError('Spotify getUserPlaylists failed with error:' + err.toString());
           });
         };
 
@@ -190,6 +204,8 @@
             });
             setupUploadPlaylistHandler();
             $('#user-current-playlist-container').show();   // TODO(go) only show if something changed
+          }).catch(err => {
+            logError('Spotify getPlaylist failed with error:' + err.toString());
           });
         };
 
@@ -204,7 +220,7 @@
             console.log('Tracks updated');
             $('#upload-status').text('Upload finished');
           }).catch(err => {
-            console.log('Tracks update failed', err);
+            logError('Spotify replaceTracksInPlaylist failed with error:' + err.toString());
             $('#upload-status').text('Upload failed: ' + err);
           });
         }

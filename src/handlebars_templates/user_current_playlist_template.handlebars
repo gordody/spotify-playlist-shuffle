@@ -47,7 +47,11 @@
     </div>
     <div class="track-preview" title="Preview">
       <span>Preview:</span>
+      {{#if preview_url}}
       <audio id="audio-control-{{id}}" class="audio-control" src="{{preview_url}}" controls></audio>
+      {{else}}
+      N/A
+      {{/if}}
     </div>
   </div>
   {{/with}}
