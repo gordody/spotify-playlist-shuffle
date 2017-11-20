@@ -142,10 +142,6 @@ body_bck {
   width: 95%;  
 }
 
-.user-playlist-container div {
-  height: 3.3em;
-}
-
 #playlist-image-container {
   clear: left;
   float: left;
@@ -160,11 +156,18 @@ body_bck {
   flex-grow: 3;
 }
 
+#previous-set-of-playlists {
+  visibility: visible;
+}
+
+#next-set-of-playlists {
+  visibility: visible;
+}
+
 .playlist-tracks {
-  padding: 0.5em;
-  margin: 0.5em;
-  text-align: left;
-  flex-grow: 2;
+  padding: 0.5em 1.5em 0.5em 0.5em;
+  margin: 1.5em 0.5em 0.5em 0.5em;
+  text-align: right;
 }
 
 .playlist-type {
@@ -175,7 +178,6 @@ body_bck {
   padding: 0.2em 0.5em;
   margin: 0.5em 0.2em;
   align-self: flex-end;
-  flex-grow: 1;
 }
 
 #track-list{
