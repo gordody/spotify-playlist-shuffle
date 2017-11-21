@@ -4,7 +4,13 @@
     <img height=100 width=100 src="{{images.0.url}}"/>
  {{/if}}
  <span>
-  Playlist {{name}} ({{tracks.total}} Tracks)
+  Playlist 
+  {{#if external_urls.spotify}}
+    <a href="{{external_urls.spotify}}" target="_blank">{{name}}</a>
+  {{else}}
+    {{name}}
+  {{/if}}
+  ({{tracks.total}} Tracks)
  </span>
 </h2>
 {{#if description}}

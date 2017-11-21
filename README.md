@@ -19,8 +19,11 @@ v0.0.6
 * Spotify Web API (0.22.1): https://github.com/jmperez/spotify-web-api-js
 
 # TODO
-* CSS/Formatting
-  * Remove user data from top
+* Rearrange more than 100 tracks
+  * To fix this, the tracks beyond 100 need to be downloaded in multiple steps, 
+    then the playlist needs to be recreated using a call to [Replace a Playlist’s Tracks|https://developer.spotify.com/web-api/replace-playlists-tracks/]
+    then multiple calls to [Add Tracks to a Playlist|https://developer.spotify.com/web-api/replace-playlists-tracks/]
+* Play songs in place
 
 # Other
 # SSL Certificates on deployed site: https://letsencrypt.org/getting-started/ and https://certbot.eff.org/

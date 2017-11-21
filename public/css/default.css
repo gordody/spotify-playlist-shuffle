@@ -156,12 +156,21 @@ body_bck {
   flex-grow: 3;
 }
 
+#playlist-from-to {
+  font-size: 2em;
+}
+
 #previous-set-of-playlists {
   visibility: visible;
 }
 
 #next-set-of-playlists {
   visibility: visible;
+}
+
+.playlist-image {
+  height: 3em;
+  width: 3em;
 }
 
 .playlist-tracks {

@@ -35,12 +35,12 @@
           <!--
           <button class="btn btn-default" id="get-user-playlists">Get Playlists</button>
           -->
-          <div id="user-playlists">
-          </div>
           <div id="user-playlist-controls">
             <div id="playlist-from-to"></div>
             <button class="btn btn-default" id="previous-set-of-playlists">&lt;</button>
             <button class="btn btn-default" id="next-set-of-playlists">&gt;</button>
+          </div>
+          <div id="user-playlists">
           </div>
         </div>
         <div id="user-current-playlist-container">
@@ -194,7 +194,7 @@
             var numFrom = playlistOptions.offset + 1;
             var preNumTo = playlistOptions.offset + playlistOptions.limit;
             var numTo = preNumTo < data.total ? preNumTo : data.total;
-            $('#playlist-from-to').text('Showing Playlists from ' + numFrom + ' to ' + numTo);
+            $('#playlist-from-to').text('Showing Playlists ' + numFrom + ' to ' + numTo + ' of ' + data.total);
             setupPlaylistLoader();
           }).catch(err => {
             logError('Spotify getUserPlaylists failed with error:' + err.toString());
@@ -205,13 +205,13 @@
           $('#previous-set-of-playlists').on('click', e => {
             playlistOptions.offset -= playlistOptions.limit;
             if (playlistOptions.offset < 0) {
-              playlistOptions.offset = userPlaylists.total - playlistOptions.limit;
+              playlistOptions.offset = userPlaylists.total - (userPlaylists.total % playlistOptions.offset);
             }
             getUserPlaylists();
           });
           $('#next-set-of-playlists').on('click', e => {
             playlistOptions.offset += playlistOptions.limit;
-            playlistOptions.offset = playlistOptions.offset % userPlaylists.total;
+            playlistOptions.offset = playlistOptions.offset >= userPlaylists.total ? 0 : playlistOptions.offset;
             getUserPlaylists();
           });
         }

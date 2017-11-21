@@ -1,8 +1,18 @@
-<h1>Found {{total}} playlists</h1>
 <div><a href="{{href}}">Source</a></div>
 {{#each items}}
 <div class="user-playlist-container">
-  <div class="playlist-name">{{name}}</div>
+  {{#if images.0.url}}
+  <img class="playlist-image" src="{{images.0.url}}"/>
+  {{else}}
+  <div class="playlist-image"></div>
+  {{/if}}
+  <div class="playlist-name">
+  {{#if external_urls.spotify}}
+    <a href="{{external_urls.spotify}}" target="_blank">{{name}}</a>
+  {{else}}
+    {{name}}
+  {{/if}}
+  </div>
   <div class="playlist-tracks">Tracks: {{tracks.total}}</div>
   <!--
   <div class="playlist-type">Type: {{type}}</div>
