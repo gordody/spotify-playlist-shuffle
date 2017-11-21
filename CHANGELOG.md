@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ### Changed
-- error logging
-- disable preview if not available
 ### Removed
 
 ### Deprecated
@@ -22,10 +20,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.0.7] - 2017-11-20
 ### Changed
 - Playlist pagination: can show more than 20 playlists using paging
+- error logging
+- disable preview if not available
 
 ## [0.0.6] - 2017-11-14
 ### Changed
-- Style updates for hones and tablets
+- Style updates for phones and tablets
 - Favicon
 - Login status
 ### Fized
