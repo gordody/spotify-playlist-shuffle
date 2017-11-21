@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Security
 
+## [0.0.7] - 2017-11-20
+### Changed
+- Playlist pagination: can show more than 20 playlists using paging
+
 ## [0.0.6] - 2017-11-14
 ### Changed
 - Style updates for hones and tablets

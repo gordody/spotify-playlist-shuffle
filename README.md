@@ -8,7 +8,7 @@ Seems to be a missing feature:
 npm i
 
 # Current version:
-v0.0.6
+v0.0.7
 
 # Libraries used:
 * Handlebar (4.0.10): http://handlebarsjs.com/
@@ -19,6 +19,9 @@ v0.0.6
 * Spotify Web API (0.22.1): https://github.com/jmperez/spotify-web-api-js
 
 # TODO
+* When loading tracks, hide the playlists
+* When done with the tracks, show the playlists
+* Use [Search API|https://developer.spotify.com/web-api/search-item/] to find a playlist
 * Rearrange more than 100 tracks
   * To fix this, the tracks beyond 100 need to be downloaded in multiple steps, 
     then the playlist needs to be recreated using a call to [Replace a Playlist’s Tracks|https://developer.spotify.com/web-api/replace-playlists-tracks/]
