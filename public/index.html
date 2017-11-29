@@ -38,6 +38,7 @@
           <div id="user-playlist-controls">
             <div id="playlist-from-to"></div>
             <button class="btn btn-default" id="previous-set-of-playlists">&lt;</button>
+            <input type="email" class="form-control" id="playlist-filter" placeholder="filter" title="Playlist Filter">
             <button class="btn btn-default" id="next-set-of-playlists">&gt;</button>
           </div>
           <div id="user-playlists">
@@ -83,11 +84,6 @@
           url: getLocationRoot() + 'img/log.png?log=' + encodeURIComponent(msg)
         })
       }
-
-      /*
-      $(document).ready(function() {
-
-      });
 
       /**
        * Obtains parameters from the hash of the URL
@@ -187,7 +183,37 @@
           });
         };
 
-        var getUserPlaylists = function () {
+        // TODO: debounce, call on every keystorke
+        var getUserPlaylists = function() {
+          if ($('#playlist-filter').val().length === 0) {
+            getAllUserPlaylists();
+          } else {
+            findUserPlaylists();
+          }
+        };
+
+        /**
+         * Find user playlists based on a search field. If the field is empty, all playlists are returned
+         */
+        var findUserPlaylists = function() {
+          const query = 'name:' + $('#playlist-filter').val();
+          spotifyApi.search(query, ['playlist'], playlistOptions).then(data => {
+            userPlaylistsPlaceholder.innerHTML = userPlaylistsTemplate(data);
+            userPlaylists = data;
+            var numFrom = playlistOptions.offset + 1;
+            var preNumTo = playlistOptions.offset + playlistOptions.limit;
+            var numTo = preNumTo < data.total ? preNumTo : data.total;
+            $('#playlist-from-to').text('Showing Playlists ' + numFrom + ' to ' + numTo + ' of ' + data.total);
+            setupPlaylistLoader();
+          }).catch(err => {
+            logError('Spotify getUserPlaylists failed with error:' + err.toString());
+          });
+        };
+
+        /**
+         * Get all user playlists
+         */
+         var getAllUserPlaylists = function() {
           spotifyApi.getUserPlaylists(playlistOptions).then(data => {
             userPlaylistsPlaceholder.innerHTML = userPlaylistsTemplate(data);
             userPlaylists = data;
