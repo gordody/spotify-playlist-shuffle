@@ -19,6 +19,9 @@ v0.0.7
 * Spotify Web API (0.22.1): https://github.com/jmperez/spotify-web-api-js
 
 # TODO
+* Renumber tracks after upload
+* Move `Load tracks` to the front of the line
+* Add random shuffle option to playlist sorter
 * When loading tracks, hide the playlists
 * When done with the tracks, show the playlists
 * Use [Search API|https://developer.spotify.com/web-api/search-item/] to find a playlist
