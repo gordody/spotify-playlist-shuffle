@@ -32,5 +32,8 @@ v0.0.7
 * Play songs in place
 
 # Other
-# SSL Certificates on deployed site: https://letsencrypt.org/getting-started/ and https://certbot.eff.org/
-# Icon from: https://www.iconfinder.com/search/?q=shuffle&type=vector&price=free
+* SSL Certificates on deployed site: https://letsencrypt.org/getting-started/ and https://certbot.eff.org/
+* Icon from: https://www.iconfinder.com/search/?q=shuffle&type=vector&price=free
+* Service hosted on AWS
+* Proxy: nginx
+* monitoring/startup: pm2 -- http://pm2.keymetrics.io/docs/usage/quick-start/
