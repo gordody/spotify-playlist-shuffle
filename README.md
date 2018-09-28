@@ -1,5 +1,7 @@
 Spotify app to rearrange tracks in playlists
 
+Currently running at: https://puddlejumping.net/spotify_playlist_shuffle
+
 Seems to be a missing feature:
 * https://community.spotify.com/t5/Closed-Ideas/Rearrange-Playlists-in-Mobile-App/idi-p/588188
 * https://community.spotify.com/t5/Web-Player/Is-there-a-way-to-re-order-playlists/td-p/664360
